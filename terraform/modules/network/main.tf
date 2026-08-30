@@ -29,3 +29,42 @@ resource "aws_subnet" "private_1" {
     Name = "nimbriq-private-1"
   }
 }
+resource "aws_internet_gateway" "nimbriq" {
+  vpc_id = aws_vpc.nimbriq.id
+
+  tags = {
+    Name = "nimbriq-igw"
+  }
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.nimbriq.id
+
+  tags = {
+    Name = "nimbriq-public-rt"
+  }
+}
+
+resource "aws_route_table" "private" {
+  vpc_id = aws_vpc.nimbriq.id
+
+  tags = {
+    Name = "nimbriq-private-rt"
+  }
+}
+
+resource "aws_route" "public_internet" {
+  route_table_id         = aws_route_table.public.id
+  destination_cidr_block = "0.0.0.0/0"
+  gateway_id             = aws_internet_gateway.nimbriq.id
+}
+
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public_1.id
+  route_table_id = aws_route_table.public.id
+}
+
+resource "aws_route_table_association" "private" {
+  subnet_id      = aws_subnet.private_1.id
+  route_table_id = aws_route_table.private.id
+}

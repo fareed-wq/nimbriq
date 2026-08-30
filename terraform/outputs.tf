@@ -15,7 +15,7 @@ output "private_subnet_id" {
 
 output "internet_gateway_id" {
   description = "ID of the Internet Gateway"
-  value       = aws_internet_gateway.nimbriq.id
+  value       = module.network.internet_gateway_id
 }
 
 output "web_instance_id" {
