@@ -64,3 +64,32 @@ moved {
   from = aws_instance.web
   to   = module.compute.aws_instance.web
 }
+moved {
+  from = aws_s3_bucket.lab
+  to   = module.storage.aws_s3_bucket.lab
+}
+
+moved {
+  from = aws_s3_bucket_versioning.lab
+  to   = module.storage.aws_s3_bucket_versioning.lab
+}
+
+moved {
+  from = aws_s3_bucket_server_side_encryption_configuration.lab
+  to   = module.storage.aws_s3_bucket_server_side_encryption_configuration.lab
+}
+
+moved {
+  from = aws_s3_bucket_public_access_block.lab
+  to   = module.storage.aws_s3_bucket_public_access_block.lab
+}
+
+moved {
+  from = aws_s3_bucket_ownership_controls.lab
+  to   = module.storage.aws_s3_bucket_ownership_controls.lab
+}
+
+moved {
+  from = aws_s3_bucket_policy.lab
+  to   = module.storage.aws_s3_bucket_policy.lab
+}

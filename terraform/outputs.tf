@@ -30,5 +30,5 @@ output "web_security_group_id" {
 
 output "lab_bucket_name" {
   description = "Name of the Nimbriq S3 lab bucket"
-  value       = aws_s3_bucket.lab.id
+  value       = module.storage.bucket_id
 }

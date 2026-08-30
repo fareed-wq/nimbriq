@@ -16,7 +16,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:ListBucketVersions"
         ]
 
-        Resource = aws_s3_bucket.lab.arn
+        Resource = module.storage.bucket_arn
       },
       {
         Sid    = "ReadWriteNimbriqObjects"
@@ -28,7 +28,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:PutObject"
         ]
 
-        Resource = "${aws_s3_bucket.lab.arn}/*"
+        Resource = "${module.storage.bucket_arn}/*"
       }
     ]
   })
