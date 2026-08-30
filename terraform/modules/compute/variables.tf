@@ -13,10 +13,6 @@ variable "instance_type" {
   type        = string
 }
 
-variable "ssh_allowed_cidr" {
-  description = "CIDR allowed to access SSH"
-  type        = string
-}
 variable "iam_instance_profile" {
   description = "IAM instance profile attached to EC2"
   type        = string

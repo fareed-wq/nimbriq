@@ -49,18 +49,6 @@ variable "instance_type" {
   default     = "t3.micro"
 }
 
-variable "ssh_allowed_cidr" {
-  description = "Single IPv4 address permitted to SSH to the web server"
-  type        = string
-
-  validation {
-    condition = (
-      can(cidrnetmask(var.ssh_allowed_cidr)) &&
-      endswith(var.ssh_allowed_cidr, "/32")
-    )
-    error_message = "ssh_allowed_cidr must be a valid IPv4 /32 CIDR."
-  }
-}
 
 variable "lab_bucket_name" {
   description = "Globally unique S3 bucket used by the Nimbriq lab"

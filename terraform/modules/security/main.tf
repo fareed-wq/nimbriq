@@ -72,3 +72,7 @@ resource "aws_accessanalyzer_analyzer" "external" {
   analyzer_name = "nimbriq-external-access-analyzer"
   type          = "ACCOUNT"
 }
+resource "aws_iam_role_policy_attachment" "ssm_core" {
+  role       = aws_iam_role.ec2_s3.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}

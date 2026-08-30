@@ -26,7 +26,6 @@ jobs:
     env:
       TF_IN_AUTOMATION: "true"
       TF_VAR_lab_bucket_name: ${{ vars.NIMBRIQ_LAB_BUCKET_NAME }}
-      TF_VAR_ssh_allowed_cidr: ${{ secrets.NIMBRIQ_SSH_ALLOWED_CIDR }}
 
     steps:
       - name: Checkout repository
