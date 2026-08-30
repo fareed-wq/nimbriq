@@ -41,7 +41,7 @@ resource "aws_instance" "web" {
   vpc_security_group_ids = [aws_security_group.web.id]
 
   key_name             = "nimbriq-web-key"
-  iam_instance_profile = "nimbriq-ec2-s3-role"
+  iam_instance_profile = var.iam_instance_profile
 
   monitoring        = false
   source_dest_check = true

@@ -16,7 +16,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:ListBucketVersions"
         ]
 
-        Resource = module.storage.bucket_arn
+        Resource = var.bucket_arn
       },
       {
         Sid    = "ReadWriteNimbriqObjects"
@@ -28,7 +28,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:PutObject"
         ]
 
-        Resource = "${module.storage.bucket_arn}/*"
+        Resource = "${var.bucket_arn}/*"
       }
     ]
   })
@@ -66,4 +66,9 @@ resource "aws_iam_instance_profile" "ec2_s3" {
   name = "nimbriq-ec2-s3-role"
   path = "/"
   role = aws_iam_role.ec2_s3.name
+}
+
+resource "aws_accessanalyzer_analyzer" "external" {
+  analyzer_name = "nimbriq-external-access-analyzer"
+  type          = "ACCOUNT"
 }

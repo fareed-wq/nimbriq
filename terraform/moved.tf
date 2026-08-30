@@ -93,3 +93,27 @@ moved {
   from = aws_s3_bucket_policy.lab
   to   = module.storage.aws_s3_bucket_policy.lab
 }
+moved {
+  from = aws_iam_policy.s3_access
+  to   = module.security.aws_iam_policy.s3_access
+}
+
+moved {
+  from = aws_iam_role.ec2_s3
+  to   = module.security.aws_iam_role.ec2_s3
+}
+
+moved {
+  from = aws_iam_role_policy_attachment.ec2_s3
+  to   = module.security.aws_iam_role_policy_attachment.ec2_s3
+}
+
+moved {
+  from = aws_iam_instance_profile.ec2_s3
+  to   = module.security.aws_iam_instance_profile.ec2_s3
+}
+
+moved {
+  from = aws_accessanalyzer_analyzer.external
+  to   = module.security.aws_accessanalyzer_analyzer.external
+}
