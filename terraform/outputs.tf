@@ -20,12 +20,12 @@ output "internet_gateway_id" {
 
 output "web_instance_id" {
   description = "ID of the Nimbriq web EC2 instance"
-  value       = aws_instance.web.id
+  value       = module.compute.web_instance_id
 }
 
 output "web_security_group_id" {
   description = "ID of the web server security group"
-  value       = aws_security_group.web.id
+  value       = module.compute.web_security_group_id
 }
 
 output "lab_bucket_name" {

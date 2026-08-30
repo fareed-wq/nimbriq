@@ -17,6 +17,6 @@ resource "aws_cloudwatch_metric_alarm" "high_cpu" {
   actions_enabled = true
 
   dimensions = {
-    InstanceId = aws_instance.web.id
+    InstanceId = module.compute.web_instance_id
   }
 }

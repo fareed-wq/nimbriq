@@ -40,3 +40,27 @@ moved {
   from = aws_route_table_association.private
   to   = module.network.aws_route_table_association.private
 }
+moved {
+  from = aws_security_group.web
+  to   = module.compute.aws_security_group.web
+}
+
+moved {
+  from = aws_vpc_security_group_ingress_rule.web_http
+  to   = module.compute.aws_vpc_security_group_ingress_rule.web_http
+}
+
+moved {
+  from = aws_vpc_security_group_ingress_rule.web_ssh
+  to   = module.compute.aws_vpc_security_group_ingress_rule.web_ssh
+}
+
+moved {
+  from = aws_vpc_security_group_egress_rule.web_all
+  to   = module.compute.aws_vpc_security_group_egress_rule.web_all
+}
+
+moved {
+  from = aws_instance.web
+  to   = module.compute.aws_instance.web
+}
