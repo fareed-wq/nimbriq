@@ -1,5 +1,5 @@
 resource "aws_subnet" "public_1" {
-  vpc_id                  = aws_vpc.nimbriq.id
+  vpc_id                  = module.network.vpc_id
   cidr_block              = var.public_subnet_cidr
   availability_zone       = var.availability_zone
   map_public_ip_on_launch = false
@@ -10,7 +10,7 @@ resource "aws_subnet" "public_1" {
 }
 
 resource "aws_subnet" "private_1" {
-  vpc_id                  = aws_vpc.nimbriq.id
+  vpc_id                  = module.network.vpc_id
   cidr_block              = var.private_subnet_cidr
   availability_zone       = var.availability_zone
   map_public_ip_on_launch = false

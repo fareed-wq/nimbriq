@@ -1,5 +1,5 @@
 resource "aws_internet_gateway" "nimbriq" {
-  vpc_id = aws_vpc.nimbriq.id
+  vpc_id = module.network.vpc_id
 
   tags = {
     Name = "nimbriq-igw"

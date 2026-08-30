@@ -1,7 +1,7 @@
 resource "aws_security_group" "web" {
   name        = "nimbriq-web-sg"
   description = "Security group for Nimbriq public web server"
-  vpc_id      = aws_vpc.nimbriq.id
+  vpc_id      = module.network.vpc_id
 
   tags = {
     Name = "nimbriq-web-sg"

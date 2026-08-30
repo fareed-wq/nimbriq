@@ -1,6 +1,6 @@
 output "vpc_id" {
   description = "ID of the Nimbriq VPC"
-  value       = aws_vpc.nimbriq.id
+  value       = module.network.vpc_id
 }
 
 output "public_subnet_id" {
