@@ -16,7 +16,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:ListBucketVersions"
         ]
 
-        Resource = "arn:aws:s3:::nimbriq-lab-euc1-8f3a"
+        Resource = aws_s3_bucket.lab.arn
       },
       {
         Sid    = "ReadWriteNimbriqObjects"
@@ -28,7 +28,7 @@ resource "aws_iam_policy" "s3_access" {
           "s3:PutObject"
         ]
 
-        Resource = "arn:aws:s3:::nimbriq-lab-euc1-8f3a/*"
+        Resource = "${aws_s3_bucket.lab.arn}/*"
       }
     ]
   })

@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "lab" {
-  bucket        = "nimbriq-lab-euc1-8f3a"
+  bucket        = var.lab_bucket_name
   force_destroy = false
 }
 

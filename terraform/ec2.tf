@@ -1,6 +1,6 @@
 resource "aws_instance" "web" {
   ami           = "ami-0f417677f9bf398c1"
-  instance_type = "t3.micro"
+  instance_type = var.instance_type
 
   subnet_id              = aws_subnet.public_1.id
   vpc_security_group_ids = [aws_security_group.web.id]
