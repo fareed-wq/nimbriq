@@ -2,7 +2,7 @@ resource "aws_instance" "web" {
   ami           = "ami-0f417677f9bf398c1"
   instance_type = var.instance_type
 
-  subnet_id              = aws_subnet.public_1.id
+  subnet_id              = module.network.public_subnet_id
   vpc_security_group_ids = [aws_security_group.web.id]
 
   key_name             = "nimbriq-web-key"
