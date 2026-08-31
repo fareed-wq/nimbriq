@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ project_name }}</title>
+</head>
+<body>
+    <h1>{{ project_name }} Cloud Server</h1>
+    <p>Environment: {{ app_environment }}</p>
+    <p>Operating System: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}</p>
+    <p>Hostname: {{ ansible_facts['hostname'] }}</p>
+    <p>Managed successfully with Ansible through AWS Systems Manager.</p>
+</body>
+</html>

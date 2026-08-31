@@ -1,0 +1,20 @@
+---
+- name: Ensure Apache is installed
+  ansible.builtin.package:
+    name: "{{ web_package }}"
+    state: present
+
+- name: Ensure Apache is enabled and running
+  ansible.builtin.service:
+    name: "{{ web_service }}"
+    state: started
+    enabled: true
+
+- name: Deploy Nimbriq web page
+  ansible.builtin.template:
+    src: index.html.j2
+    dest: "{{ web_root }}/index.html"
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Restart Apache

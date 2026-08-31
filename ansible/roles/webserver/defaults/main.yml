@@ -1,0 +1,6 @@
+---
+web_package: httpd
+web_service: httpd
+web_root: /var/www/html
+project_name: Nimbriq
+app_environment: AWS Lab

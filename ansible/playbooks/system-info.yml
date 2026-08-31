@@ -1,0 +1,25 @@
+---
+- name: Inspect Nimbriq EC2
+  hosts: nimbriq_web
+  gather_facts: true
+
+  tasks:
+    - name: Show hostname
+      ansible.builtin.debug:
+        msg: "Hostname: {{ ansible_facts['hostname'] }}"
+
+    - name: Show operating system
+      ansible.builtin.debug:
+        msg: "OS: {{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}"
+
+    - name: Show architecture
+      ansible.builtin.debug:
+        msg: "Architecture: {{ ansible_facts['architecture'] }}"
+
+    - name: Show Python version
+      ansible.builtin.debug:
+        msg: "Python: {{ ansible_facts['python_version'] }}"
+
+    - name: Show default IPv4 address
+      ansible.builtin.debug:
+        msg: "Private IP: {{ ansible_facts['default_ipv4']['address'] }}"

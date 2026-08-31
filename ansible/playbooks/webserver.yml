@@ -1,0 +1,8 @@
+---
+- name: Configure Nimbriq web server
+  hosts: nimbriq_web
+  become: true
+  gather_facts: true
+
+  roles:
+    - webserver
