@@ -32,3 +32,8 @@ output "lab_bucket_name" {
   description = "Name of the Nimbriq S3 lab bucket"
   value       = module.storage.bucket_id
 }
+
+output "ansible_transfer_bucket_name" {
+  description = "Temporary S3 bucket used by Ansible SSM connections"
+  value       = module.storage.ansible_transfer_bucket_id
+}
