@@ -1,8 +1,8 @@
 # Nimbriq
 
-**Nimbriq** is a hands-on AWS cloud infrastructure and Terraform project designed to demonstrate practical skills in cloud networking, Infrastructure as Code, IAM, security hardening, CI/CD, remote state management, monitoring, and cost-conscious AWS architecture.
+**Nimbriq** is a hands-on AWS cloud and DevOps project designed to demonstrate practical skills in cloud networking, Infrastructure as Code, configuration management, IAM, security hardening, CI/CD, remote state management, monitoring, and cost-conscious AWS architecture.
 
-The project was built incrementally: first by understanding and deploying AWS resources manually, then importing and managing the infrastructure with Terraform, and finally adding automation, security, and operational controls.
+The project was built incrementally: first by understanding and deploying AWS resources manually, then importing and managing the infrastructure with Terraform, and finally adding Ansible configuration management, GitHub Actions automation, security hardening, and operational controls.
 
 **Primary AWS Region:** `eu-central-1` (Frankfurt)
 
@@ -17,12 +17,16 @@ Nimbriq currently includes:
 - Custom VPC with public and private subnets
 - Internet Gateway and dedicated route tables
 - Amazon Linux EC2 web server running Apache
-- S3 storage with encryption and versioning
+- Terraform-managed AWS infrastructure
+- Ansible-managed EC2 web-server configuration
+- AWS Systems Manager Session Manager for administration and Ansible connectivity
+- Dedicated private S3 transfer bucket for Ansible over SSM
+- S3 application storage with encryption and versioning
 - IAM role-based EC2 access to S3
-- AWS Systems Manager Session Manager for administration
 - CloudWatch monitoring
 - IAM Access Analyzer
 - Terraform remote state stored securely in S3
+- GitHub Actions for Terraform CI, Terraform Plan, and Ansible CI
 - GitHub Actions authenticated to AWS through OIDC
 
 The private subnet is currently reserved for future workloads.
@@ -66,6 +70,11 @@ The private subnet is currently reserved for future workloads.
 - GitHub Actions
 - Terraform CI validation
 - Automated Terraform Plan
+- Ansible configuration management
+- Ansible roles, templates, variables, and handlers
+- Idempotent server configuration
+- Ansible connectivity through AWS Systems Manager
+- Ansible CI inventory and syntax validation
 - GitHub-to-AWS OIDC authentication
 - CI without permanent AWS access keys
 
@@ -143,6 +152,42 @@ This removes the need to expose an SSH management port to the internet.
 
 ---
 
+## Configuration Management with Ansible
+
+Terraform provisions the AWS infrastructure, while Ansible manages operating-system and web-server configuration on the EC2 instance.
+
+Ansible connects through AWS Systems Manager using the `amazon.aws.aws_ssm` connection plugin rather than SSH.
+
+~~~text
+Ansible Controller
+       |
+       v
+AWS Authentication
+       |
+       v
+AWS Systems Manager
+       |
+       +---- Temporary module transfer ----> S3 Transfer Bucket
+       |
+       v
+EC2 Instance
+       |
+       v
+Apache Configuration
+~~~
+
+A dedicated private S3 bucket is used for temporary Ansible module transfer. It uses S3 Block Public Access, SSE-S3 encryption, bucket-owner-enforced ownership, no versioning, a one-day lifecycle policy, and HTTPS-only access.
+
+The `webserver` role:
+
+- Ensures Apache (`httpd`) is installed
+- Ensures Apache is enabled and running
+- Deploys the Nimbriq page from a Jinja2 template
+- Restarts Apache through a handler only when required
+
+The configuration was tested for idempotency. After reaching the desired state, a second playbook run completed with `changed=0`.
+
+---
 ## Storage
 
 The project contains an S3 lab bucket configured with:
@@ -255,11 +300,11 @@ Terraform state files and local variable files are excluded from Git.
 
 ## CI/CD with GitHub Actions
 
-Nimbriq contains two GitHub Actions workflows.
+Nimbriq contains three GitHub Actions workflows.
 
 ### Terraform CI
 
-The CI workflow performs:
+The Terraform CI workflow performs:
 
 ~~~text
 terraform fmt -check
@@ -267,16 +312,13 @@ terraform init -backend=false
 terraform validate
 ~~~
 
-This workflow does not require AWS credentials.
+This workflow validates Terraform code without requiring AWS credentials.
 
 ### Terraform Plan
 
-The plan workflow follows this authentication and validation flow:
+The Terraform Plan workflow authenticates to AWS through GitHub OIDC and performs:
 
 ~~~text
-GitHub Repository
-       |
-       v
 GitHub Actions
        |
        v
@@ -295,14 +337,30 @@ Terraform Validate
 Terraform Plan
 ~~~
 
-GitHub Actions uses AWS OIDC instead of permanent AWS access keys.
-
-The IAM role used by GitHub is restricted to the repository and is intended for Terraform planning rather than infrastructure deployment.
+No permanent AWS access keys are stored in GitHub.
 
 Terraform Apply is intentionally not automated.
 
----
+### Ansible CI
 
+The Ansible CI workflow performs offline validation:
+
+~~~text
+Checkout Repository
+       |
+       v
+Install Ansible
+       |
+       v
+Validate Inventory
+       |
+       v
+Syntax Check Playbooks
+~~~
+
+It does not start EC2 instances, connect to AWS, or apply configuration changes.
+
+---
 ## Cost-Conscious Design
 
 This project intentionally avoids unnecessary AWS services that could create recurring costs.
@@ -338,8 +396,15 @@ nimbriq/
 |
 |-- .github/
 |   `-- workflows/
+|       |-- ansible-ci.yml
 |       |-- terraform-ci.yml
 |       `-- terraform-plan.yml
+|
+|-- ansible/
+|   |-- inventory/
+|   |-- playbooks/
+|   |-- roles/
+|   `-- ansible.cfg
 |
 |-- docs/
 |   `-- nimbriq-architecture.png
@@ -426,6 +491,18 @@ AWS OIDC Authentication
 SSM Security Hardening
       |
       v
+Ansible Configuration Management
+      |
+      v
+Ansible over AWS SSM
+      |
+      v
+Ansible CI and Idempotency Validation
+      |
+      v
+Terraform / Ansible Responsibility Separation
+      |
+      v
 Cost and Operational Hardening
 ~~~
 
@@ -441,9 +518,11 @@ Possible future additions include:
 - Application Load Balancer
 - Private application workloads
 - Additional Terraform testing
+- Ansible linting and role testing
 - Policy-as-Code validation
 - Separate development and production environments
 - Controlled/manual Terraform Apply workflow
+- Controlled/manual Ansible deployment workflow
 
 These services are intentionally not deployed yet because the current project prioritizes learning, security, simplicity, and cost control.
 
@@ -453,6 +532,6 @@ These services are intentionally not deployed yet because the current project pr
 
 Nimbriq is an educational and portfolio project created to demonstrate hands-on experience with:
 
-**AWS | Terraform | Infrastructure as Code | Cloud Security | IAM | Networking | GitHub Actions | OIDC | DevOps | Systems Manager | S3 | EC2**
+**AWS | Terraform | Ansible | Infrastructure as Code | Configuration Management | Cloud Security | IAM | Networking | GitHub Actions | OIDC | DevOps | Systems Manager | S3 | EC2**
 
 The project focuses not only on deploying AWS infrastructure, but also on understanding why each component exists, how it is secured, how it is automated, and how unnecessary cloud costs can be avoided.
