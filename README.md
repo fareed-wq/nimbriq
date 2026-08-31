@@ -262,7 +262,6 @@ terraform/
     |   |-- main.tf
     |   |-- variables.tf
     |   |-- outputs.tf
-    |   `-- user_data.sh
     |
     |-- storage/
     |   |-- main.tf
