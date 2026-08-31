@@ -38,7 +38,6 @@ resource "aws_instance" "web" {
   monitoring        = false
   source_dest_check = true
 
-  user_data = file("${path.module}/user_data.sh")
 
   metadata_options {
     http_endpoint               = "enabled"
