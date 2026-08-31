@@ -1,10 +1,22 @@
 # Nimbriq
 
+[![Terraform CI](https://github.com/fareed-wq/nimbriq/actions/workflows/terraform-ci.yml/badge.svg)](https://github.com/fareed-wq/nimbriq/actions/workflows/terraform-ci.yml)
+[![Terraform Plan](https://github.com/fareed-wq/nimbriq/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/fareed-wq/nimbriq/actions/workflows/terraform-plan.yml)
+[![Ansible CI](https://github.com/fareed-wq/nimbriq/actions/workflows/ansible-ci.yml/badge.svg)](https://github.com/fareed-wq/nimbriq/actions/workflows/ansible-ci.yml)
+
 **Nimbriq** is a hands-on AWS cloud and DevOps project designed to demonstrate practical skills in cloud networking, Infrastructure as Code, configuration management, IAM, security hardening, CI/CD, remote state management, monitoring, and cost-conscious AWS architecture.
 
 The project was built incrementally: first by understanding and deploying AWS resources manually, then importing and managing the infrastructure with Terraform, and finally adding Ansible configuration management, GitHub Actions automation, security hardening, and operational controls.
 
 **Primary AWS Region:** `eu-central-1` (Frankfurt)
+
+## Project Status
+
+**Core implementation complete  active learning and portfolio project.**
+
+The current implementation includes Terraform-managed AWS infrastructure, Ansible configuration management over AWS Systems Manager, secure remote Terraform state, GitHub OIDC authentication, and automated Terraform and Ansible validation.
+
+The project remains intentionally extensible for future cloud and DevOps improvements.
 
 ---
 
